@@ -17,10 +17,10 @@ Contents
 [Chapter 2 (2.5 - 2.6)](http://onbeyondlambda.blogspot.jp/2012/03/on-lisp-in-clojure-ch-2-25-26.html) - Scope and closures  
 [Chapter 2 (2.7 - 2.10)](http://onbeyondlambda.blogspot.jp/2012/03/this-is-fourth-post-translating.html) - Local scope and tail recursion  
 [Chapter 3](http://onbeyondlambda.blogspot.jp/2012/03/on-lisp-in-clojure-ch-3.html) - Functional design  
-[Chapter 4 (4.1 - 4.3)](http://onbeyondlambda.blogspot.jp/2012/03/on-lisp-in-clojure-ch-4-41-to-43.html) - Utility function  s
+[Chapter 4 (4.1 - 4.3)](http://onbeyondlambda.blogspot.jp/2012/03/on-lisp-in-clojure-ch-4-41-to-43.html) - Utility function  
 [Chapter 4 (4.5 - 4.8)](http://onbeyondlambda.blogspot.jp/2012/04/on-lisp-in-clojure-ch-4-45-48.html) - Mapping and I/O  
-[Chapter 5](http://onbeyondlambda.blogspot.jp/2012/04/on-lisp-in-clojure-ch-5.html) - More advanced functional programmin  g
-[Chapter 6](http://onbeyondlambda.blogspot.com/2012/04/on-lisp-in-clojure-chapter-6.html) - Representing Networks in data and closure  s
+[Chapter 5](http://onbeyondlambda.blogspot.jp/2012/04/on-lisp-in-clojure-ch-5.html) - More advanced functional programming  
+[Chapter 6](http://onbeyondlambda.blogspot.com/2012/04/on-lisp-in-clojure-chapter-6.html) - Representing Networks in data and closures  
 [Chapter 7 (7.1 - 7.4)](http://onbeyondlambda.blogspot.com/2012/04/on-lisp-in-clojure-chapter-7-71-74.html) - Intro to macros  
 
 Links

@@ -101,3 +101,155 @@
   `(clojure.pprint/pprint (macroexpand-1 '~expr)))
 
 (mac (our-while (atom true) (println "side effect") "Value"))
+
+
+;; Section 7.5
+
+(let [[x [y] & z] ['a ['b] 'c 'd ]]
+  (list x y z))
+
+(doseq [x '(1 2 3)]
+  (println x))
+
+;; this follows the same pattern as Graham's function, but because
+;; map is lazy, it is never actually realized!
+(defmacro our-dolist [[lst & result] & body]
+  `(do  (map ~@body ~lst)
+        ~@result))
+
+
+(macroexpand-1 (our-dolist [[1 2 3] ] #(println %)))
+(macroexpand-1 (our-dolist [[1 2 3] 4] #(println %)))
+
+(defmacro when-bind [[var expr] body]
+  `(let [~var ~expr]
+     (when ~var)
+     ~@body ))
+
+(when-bind [input "something"] (println input))
+
+;; Section 7.6
+(defmacro our-defmacro [name params & body]
+  `(defn ~name [~@params]
+     (do
+       ~@body)))
+
+(macroexpand-1 '(our-defmacro test [x] (println x)(+ x 2)))
+
+;; Section 7.7  Just because we can do a thing, it does not follow that we must do a thing
+
+;; our desired result
+(let [w 3 x 1 y 2 z nil]
+  (loop [x x y y]
+    (if (> x 10)
+      (do (println z) y )
+       (do
+         (println x)
+         (println y)
+         (recur (inc x) (inc y))))))
+
+
+;; the macro
+(defmacro our-looper [{:keys [initial-vals
+                              body
+                              loop-params
+                              recursion-expr
+                              exit-cond
+                              exit-code
+                              return-val]}]
+  `(let [~@initial-vals]
+     (loop [~@loop-params]
+       (if ~exit-cond
+         (do ~exit-code
+             ~return-val)
+         (do ~@body
+             (recur ~@recursion-expr))
+         ))))
+
+;; how to call it
+(our-looper {:initial-vals [w 3 x 1 y 2 z nil]
+             :body ((println x) (println y))
+             :loop-params [x x y y]
+             :recursion-expr ((inc x) (inc y))
+             :exit-cond (> x 10)
+             :exit-code (println z)
+             :return-val y})
+
+
+;; Section 7.8
+(defmacro our-and [& args]
+  (loop [lst args]
+    (cond
+     (= (count lst) 0) true
+     (= (count lst) 1) (first lst)
+     :else (if (first lst) (recur (rest lst)) false))))
+
+
+;; section 7.9
+;; if func a depends on func b and func b gets modified, func a knows about it
+;; if func c depends on macro d and macro d gets modified, func c doesn't know
+(defn func-a [input]
+  (+ input 1))
+
+(defn func-b []
+  (func-a 3))
+
+(func-b)
+;; 4
+
+(defn func-a [input]
+  (+ input 10))
+
+(func-b)
+;; 13
+
+
+(defmacro macro-c [input]
+  `(+ ~input 1))
+
+(defn func-d []
+  (macro-d 3))
+
+(func-d)
+;; 4
+
+(defmacro macro-c [input]
+  `(+ ~input 10))
+
+(func-d)
+;; 4
+
+;; Section 7.10
+(defn second-f [x]
+  (first (rest x)))
+
+(defmacro second-m [x]
+  `(first (rest ~x)))
+
+(defn noisy-second-f [x]
+  (println "Someone is taking a cadr")
+  (first (rest x)))
+
+(defmacro noisy-second-m [x]
+  `(do
+     (println "Someone is taking a cadr")
+     (first (rest ~x))))
+
+(defn sum-f [& args]
+  (apply + args))
+
+(defmacro sum-m [& args]
+  `(apply + (list ~@args)))
+
+(defmacro sum2-m [& args]
+  `(+ ~@args))
+
+
+(defn foo [x y z]
+  (list x (let [x y]
+            (list x z))))
+
+(defmacro foo-m [x y z]
+  `(list ~x
+         (let [x# ~y]
+           (list x# ~z))))

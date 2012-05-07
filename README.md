@@ -23,6 +23,7 @@ Contents
 [Chapter 6](http://onbeyondlambda.blogspot.com/2012/04/on-lisp-in-clojure-chapter-6.html) - Representing Networks in data and closures  
 [Chapter 7 (7.1 - 7.4)](http://onbeyondlambda.blogspot.com/2012/04/on-lisp-in-clojure-chapter-7-71-74.html) - Intro to macros  
 [Chapter 7 (7.5 - 7.11)](http://onbeyondlambda.blogspot.com/2012/05/on-lisp-in-clojure-chapter-7-75-711.html) - Intro to macros pt. 2  
+[Chapter 8](http://onbeyondlambda.blogspot.com/2012/05/on-lisp-in-clojure-chapter-8.html] - When to use macros
 Links
 -----
 

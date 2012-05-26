@@ -26,6 +26,8 @@ Contents
 [Chapter 8](http://onbeyondlambda.blogspot.com/2012/05/on-lisp-in-clojure-chapter-8.html) - When to use macros  
 [Chapter 9](http://onbeyondlambda.blogspot.com/2012/05/on-lisp-in-clojure-chapter-9.html) - Variable capture  
 [Chapter 10](http://onbeyondlambda.blogspot.com/2012/05/on-lisp-in-clojure-chapter-10.html) - More macro pitfalls  
+[Chapter 11 (11.1)](http://onbeyondlambda.blogspot.com/2012/05/on-lisp-in-clojure-chapter-11-section.html) - Creating context  
+
 Links
 -----
 

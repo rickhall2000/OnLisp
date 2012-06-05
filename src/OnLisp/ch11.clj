@@ -43,6 +43,53 @@
 
 ;; Section 11.2
 
+;; Clojure has a with-open macro that is used for dealing with all sorts of resources
+(with-open [writer (clojure.java.io/writer "output-file" :append true)]
+  (.write writer "99"))
+
+;; file io has its own set of macros, spit and slurp
+(spit "output.txt" "test" :append true )
+(slurp "output.txt")
+
+;; unwind-protect becomes try catch
+(try
+  (do (println "What error?")
+      (throw (Exception. "This Error."))
+      (println "This won't run"))
+  (catch Exception e (.getMessage e))
+  (finally (println "this runs regardless")))
+
+
+;; with clojure data types locks are unnecessary.
+(def ^:dynamic *db* "some connection")
+
+(binding [ *db* "other connection"]
+         (println *db*))
+
+
+(def db2 (StringBuilder. "connection"))
+
+;; this is the code we are going to replace with a macro
+(let [old-val (.toString db2)]
+  (.replace db2 0 (.length db2) "new connection")
+  (locking db2
+    (println (.toString db2)))
+  (.replace db2 0 (.length db2) old-val))
+
+;; with-db abstracts away the inner details
+(defmacro with-db [db & body]
+  `(let [temp# (.toString db2)]
+    (try
+      (.replace db2 0 (.length db2) ~db)
+      (locking db2
+        ~@body)
+      (finally
+       (.replace db2 0 (.length db2) temp#)))))
+
+;; this is much nicer than the let form above.
+(with-db "new connection"
+   (println (.toString db2)))
+
 
 
 ;; Section 11.3

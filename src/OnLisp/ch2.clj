@@ -64,9 +64,7 @@
    (= animal 'rat) (do '(scurry) '(squeek))
    (= animal 'cat) (do '(rub-legs) '(scratch-carpet))))
 
-
-;; Protocols
-;; define the protocol
+;; Protocols. Define the protocol
 (defprotocol animal
   (behave [this] ))
 
@@ -104,9 +102,7 @@
 
 (behave "huh")
 
-;; Multimethods
-
-;; define the multimethod type
+;; Multimethods. Define the multimethod type
 (defmulti behave-multi identity)
 
 ;; define implementations for our animals
@@ -119,12 +115,10 @@
 (behave-multi 'dog)
 (behave-multi 'rat)
 
-
-;; You can dispatch on parameter values, not just parameter types
-(defmulti two-behaviors (fn [num]
-                          (if (odd? num)
-                            :odd
-                            :even)))
+;; You can dispatch on parameter values,
+;; not just parameter types
+(defmulti two-behaviors
+  (fn [num] (if (odd? num) :odd :even)))
 
 (defmethod two-behaviors :odd [num]
   (str num " is odd"))

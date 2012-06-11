@@ -208,24 +208,27 @@
      (fn [key]
        (swap! mdb dissoc key)))))
 
-(def citiesx (make-mutable-dbms {'boston 'us, 'paris 'france}) )
+(def citiesx (make-mutable-dbms
+  {'boston 'us, 'paris 'france}) )
 
 ((first citiesx) 'boston)
 ((second citiesx) 'london 'england)
 ((last citiesx) 'boston)
 
 
-;; dbms with commands stored in a map instead of a list
+;; dbms with commands stored in a
+;; map instead of a list
 
 (defn make-dbms-map [db]
-     (let [mdb (atom db)]
-       {:select (fn [key] (@mdb key))
-        :insert (fn [key val]
-                  (swap! mdb assoc key val))
-        :delete (fn [key]
-                  (swap! mdb dissoc key))}))
+  (let [mdb (atom db)]
+    {:select (fn [key] (@mdb key))
+      :insert (fn [key val]
+        (swap! mdb assoc key val))
+      :delete (fn [key]
+        (swap! mdb dissoc key))}))
 
-(def citiesm (make-dbms-map {'boston 'us 'paris 'france}))
+(def citiesm (make-dbms-map
+  {'boston 'us 'paris 'france}))
 ((:select citiesm) 'boston)
 ((:insert citiesm) 'london 'england)
 ((:delete citiesm) 'boston)

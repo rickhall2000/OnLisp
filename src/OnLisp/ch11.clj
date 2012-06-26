@@ -94,3 +94,97 @@
 
 ;; Section 11.3
 (if true 'phew (/ 2 0))
+
+
+(defmacro if3 [test t-case nil-case f-case]
+  `(let [expr# ~test]
+     (cond
+      (nil? expr#) ~nil-case
+      (false? expr#) ~f-case
+      :default ~t-case)))
+
+(defmacro nif  [expr pos zero neg]
+  `(let [expr# ~expr]
+    (cond
+     (pos? expr#) ~pos
+     (zero? expr#) ~zero
+     :default ~neg)))
+
+
+;; Clojure version of Graham's `in` macro
+(defmacro in? [needle & haystack]
+  ( let [target# needle]
+    `(or ~@(map (fn [x#] `(= ~x# ~target#)) haystack))))
+
+(macroexpand-1
+ '(in? 1 1 2 3))
+
+;; Just to make sure it is working the way we hope
+(in? 1 1 (do (println "called") 2) 3)
+
+
+;; using lazyness
+(defn member? [needle haystack]
+  (take 1 (filter (partial = needle)  haystack)))
+
+(member? 2 (iterate inc 1) )
+
+(defmacro in-if [func needle & haystack]
+  ( let [target# needle]
+    `(or ~@(map (fn [x#] `(~func ~x# ~target#)) haystack))))
+
+;; Clojure's cond already behaves like Graham's >case
+(cond
+ (do (println "First cond") false) (println "one")
+ (do (println "Second cond") true) (println "two")
+ (do (println "Third cond") true) (println "three")
+ :default (println "Nothing matched"))
+
+;; Section 11.4
+(defmacro do-tuples-o [parms source & body]
+  (let [src# source]
+    `(map (fn [~parms] ~@body)
+          (partition (count (quote ~parms)) 1 ~src#))))
+
+;; an example call to do-tuples-o
+(do-tuples-o [x y] [1 2 3 4 5] (+ x y))
+
+;; do-tuples-o functionality without the macro
+(map
+ (fn [[x y]] (+ x y))
+ (partition 2 1 [1 2 3 4 5]))
+
+
+(defn partition-round [size step source]
+  (partition size step
+             (take (- (+ size (count source)) step)
+                   (cycle source))))
+
+(defmacro do-tuples-c [parms source & body]
+  (let [src# source]
+    `(map (fn [~parms] ~@body)
+          (partition-round (count ( quote ~parms)) 1 ~src#))))
+
+
+(do-tuples-c [x y z] [1 2 3 4 5] (+ x y z))
+
+(map
+ (fn [[x y z]] (+ x y z))
+ (partition-round 3 1 [1 2 3 4 5]))
+
+;; Section 11.6 The Need for Macros
+(defn fnif [test then else]
+  (if test (then) (else)))
+
+;; we have to pass in the code as functions to delay evaluation
+(fnif true (fn [] (do (println "true") (+ 1 2))) (fn []  (do (println "false")  (- 2 1))))
+
+(defn forever [fn]
+  (if true
+    (do
+      (fn)
+      (recur fn))
+    'done))
+
+;; commented out to prevent running on loading (or ever)
+#_(forever (fn [] (println "this is dumb")))

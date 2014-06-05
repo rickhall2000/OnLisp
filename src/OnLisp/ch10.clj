@@ -1,6 +1,6 @@
 (ns OnLisp.ch10)
 
-:: Section 10.1
+;; Section 10.1
 ;; correct version
 (defmacro for' [[var start stop] & body]
   `(let [~var (atom ~start) gstop# ~stop]

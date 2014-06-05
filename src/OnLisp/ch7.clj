@@ -208,7 +208,7 @@
   `(+ ~input 1))
 
 (defn func-d []
-  (macro-d 3))
+  (macro-c 3))
 
 (func-d)
 ;; 4

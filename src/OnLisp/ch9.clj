@@ -13,7 +13,7 @@
 ;; seems to work
 (for' [ x 1 10] (println (str "current value is " @x)))
 ;; fails with error
-(for' [limit 1 10] (println (str "current value is " @limit)))
+#_(for' [limit 1 10] (println (str "current value is " @limit)))
 
 ;; On Lisp version gives no error, but no results.  Seems to work in Clojure
 (let [limit 5]

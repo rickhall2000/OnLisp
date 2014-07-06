@@ -12,7 +12,8 @@
   ( loop [names names acc {}]
     (if (empty? names)
       {}
-      (recur (rest names) (conj (nicknames (first names) acc))))))
+      (recur (rest names)
+        (conj (nicknames (first names) acc))))))
 
 ;; shorter version
 (map nicknames people)
@@ -26,7 +27,8 @@
       {(first lst) val}
       (recur fn (rest lst)))))
 
-(def bars {:atlanta '(taco-mac) :boston '(cheers)  })
+(def bars {:atlanta '(taco-mac)
+           :boston '(cheers)})
 
 (defn return-bars [town]
   (town bars))
@@ -55,7 +57,8 @@
 
 (mklist [1 2])
 
-;; No definition of lookup or data are provided, but if they
+;; No definition of lookup or data are
+;; provided, but if they
 ; (map #(mklist (lookup %)) data)
 (map inc
      (filter
@@ -84,7 +87,8 @@
 ;; Section 4.5
 
 (defn map-> [fn a test-fn succ-fn]
-  (map fn (take-while test-fn (iterate succ-fn a))))
+  (map fn (take-while test-fn
+            (iterate succ-fn a))))
 
 (map-> inc -2 #(< % 2) (partial + 0.5 ))
 
@@ -98,7 +102,8 @@
     (read-line)))
 
 (defn break-loop [fn quit]
-  (let [x (read-string (prompt (str "type " quit " to quit")))]
+  (let [x (read-string
+    (prompt (str "type " quit " to quit")))]
     (if (not (= x quit))
       (do
         (fn x)
@@ -112,14 +117,17 @@
 (seq "bomb")
 ;; => \b \o \m \b
 
-;;strings can be converted to symbols, with or without namespaces
+;;strings can be converted to symbols, with
+;;or without namespaces
 (symbol "foo")
 (symbol "some-ns" "foo")
 
-;;Clojure also adds keywords, which you can convert to from strings:
+;;Clojure also adds keywords, which you can convert
+;;to from strings:
 (keyword "foo")
 (keyword "some-ns" "foo")
 
-;;If you are not qualifying the keyword with a namespace, you can also create a keyword directly from a symbol
+;;If you are not qualifying the keyword with a namespace,
+;;you can also create a keyword directly from a symbol
 (keyword 'foo)
 (keyword "some-ns" (str 'foo))

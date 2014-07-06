@@ -1,5 +1,6 @@
 (ns OnLisp.ch3
-  (:use [clojure.math.numeric-tower :only [expt]]))
+  (:use [clojure.math.numeric-tower
+   :only [expt]]))
 
 ;; Section 3.1
 
@@ -7,13 +8,16 @@
   (loop [lst lst acc ()]
     (if (= () lst)
       acc
-      (recur (rest lst) (cons (first lst) acc )))))
+      (recur (rest lst)
+        (cons (first lst) acc )))))
 
 (good-reverse [1 2 3 4])
 
 
 (defn split-decimal [n]
-  {:quotient (quot n 1)  :remainder (rem n 1) :quotent-int (int n)})
+  {:quotient (quot n 1)
+   :remainder (rem n 1)
+   :quotent-int (int n)})
 
 (split-decimal 26.235)
 (split-decimal 26.235M)
